@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import data from './data.js';
+import Card from './Card.js'
+
+
+
+
+
+function createCard(dataTerm) {
+  return(
+    <Card
+    key = {dataTerm.id}
+    id = {dataTerm.id}
+    title ={dataTerm.title}
+    firstname = {dataTerm.firstName}
+    lastname = {dataTerm.lastName}
+    picture =  {dataTerm.picture}
+   /> 
+  );
+  
+}
+
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState("")
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <input type='text' placeholder='Search by name...' onChange={(event) => {
+      setSearchTerm(event.target.value)
+    }}></input>
+    <div className='row'>{data.filter((val) => {
+      if (searchTerm == ""){
+        return val
+      } else if (val.firstName.toLowerCase().includes(searchTerm.toLowerCase())){
+     return val
+    }else if (val.lastName.toLowerCase().includes(searchTerm.toLowerCase())){
+      return val
+    }else if (val.title.toLowerCase().includes(searchTerm.toLowerCase())){
+      return val
+    }
+    }).map(createCard)}</div>
+    
+      
     </div>
   );
 }
